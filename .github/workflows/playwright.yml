@@ -4,6 +4,12 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+env:
+  USER: ${{ secrets.USER }}
+  USER_LOCKED: ${{ secrets.USER_LOCKED }}
+  PASS_UNLOCKED: ${{ secrets.PASS_UNLOCKED }}
+
 jobs:
   test:
     timeout-minutes: 60
@@ -13,12 +19,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Add env
-      run: |
-        touch .env
-        echo USER=${{ secrets.USER }} >> .env
-        echo USER_LOCKED=${{ secrets.USER_LOCKED }} >> .env
-        echo PASS_UNLOCKED=${{ secrets.PASS_UNLOCKED }} >> .env
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
