@@ -13,15 +13,14 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    - name: Add env
+      run: |
+        touch .env
+        echo USER=${{ secrets.USER }} >> .env
+        echo USER_LOCKED=${{ secrets.USER_LOCKED }} >> .env
+        echo PASS_UNLOCKED=${{ secrets.PASS_UNLOCKED }} >> .env
     - name: Install dependencies
       run: npm ci
-    - name: Add env
-      run: echo "${{ secrets.ALL_CREDS }}" > .env
-
-      # env:
-      #   USER: '${{ secrets.USER }}'
-      #   USER_LOCKED: '${{ secrets.USER_LOCKED }}'
-      #   PASS_UNLOCKED: '${{ secrets.PASS_UNLOCKED }}'
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
